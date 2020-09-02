@@ -1,0 +1,70 @@
+server:
+  port: 8080
+---
+
+spring:
+api:
+  url:
+    confirm: http://localhost:8082
+  profiles: default
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+        streams:
+          binder:
+            configuration:
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      bindings:
+        event-in:
+          group: booking
+          destination: bookRental
+          contentType: application/json
+        event-out:
+          destination: bookRental
+          contentType: application/json
+
+logging:
+  level:
+    org.hibernate.type: trace
+    org.springframework.cloud: debug
+server:
+  port: 8081
+---
+
+spring:
+  profiles: docker
+api:
+  url:
+    confirm: http://confirm:8082
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: my-kafka.kafka.svc.cluster.local:9092
+        streams:
+          binder:
+            configuration:
+              default:
+                key:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+                value:
+                  serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+      bindings:
+        event-in:
+          group: booking
+          destination: bookRental
+          contentType: application/json
+        event-out:
+          destination: bookRental
+          contentType: application/json
