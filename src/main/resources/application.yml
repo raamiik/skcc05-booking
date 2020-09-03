@@ -3,9 +3,6 @@ server:
 ---
 
 spring:
-api:
-  url:
-    confirm: http://localhost:8082
   profiles: default
   jpa:
     properties:
@@ -40,13 +37,13 @@ logging:
     org.springframework.cloud: debug
 server:
   port: 8081
+api:
+  url:
+    confirm: http://localhost:8082
 ---
 
 spring:
   profiles: docker
-api:
-  url:
-    confirm: http://confirm:8082
   cloud:
     stream:
       kafka:
@@ -68,3 +65,6 @@ api:
         event-out:
           destination: bookRental
           contentType: application/json
+api:
+  url:
+    confirm: http://confirm:8082

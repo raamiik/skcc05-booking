@@ -38,6 +38,7 @@ public class AbstractEvent {
     }
 
     public void publish(String json){
+        System.out.println("abstract json===========================>"+json);
         if( json != null ){
 
             /**
